@@ -4,11 +4,11 @@ import 'package:pizza_calc/models/pizza.dart';
 
 class ListData extends ChangeNotifier {
   final _pizzas = <Pizza>[
-    Pizza('15', 'pizza1', 10, 15, 'pizzeria1', Shape.round,
+    Pizza('pizza1', 10, 15, 'pizzeria1', Shape.round,
         Dimensions(15, null, null)),
-    Pizza('20', 'pizza2', 15, 30, 'pizzeria2', Shape.rectangle,
+    Pizza('pizza2', 15, 30, 'pizzeria2', Shape.rectangle,
         Dimensions(null, 20, 15)),
-    Pizza('10', 'pizza3', 12, 5, 'pizzeria1', Shape.round,
+    Pizza('pizza3', 12, 5, 'pizzeria1', Shape.round,
         Dimensions(15, null, null))
   ];
   int _counter;

@@ -1,5 +1,4 @@
 class Pizza {
-  String id;
   String name;
   int cost;
   int result;
@@ -7,7 +6,7 @@ class Pizza {
   Shape shape;
   Dimensions dimensions;
 
-  Pizza(this.id, this.name, this.cost, this.result, this.pizzeriaName,
+  Pizza(this.name, this.cost, this.result, this.pizzeriaName,
       this.shape, this.dimensions);
 }
 
