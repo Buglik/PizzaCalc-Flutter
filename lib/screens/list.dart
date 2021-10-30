@@ -14,7 +14,7 @@ class PizzaListPage extends StatelessWidget {
         ),
         body: Column(
           children: <Widget>[
-            Text(listData.counter.toString())],
+            Text(listData.pizzas.toString())],
         ),
     );
   }
