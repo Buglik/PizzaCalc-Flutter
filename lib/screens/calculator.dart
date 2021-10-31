@@ -16,26 +16,50 @@ class PizzaCalculatorPage extends StatefulWidget {
 class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
   final _formKey = GlobalKey<FormState>();
 
-  int? _diameter;
-  int? _width;
-  int? _height;
-  int? _price;
+  int? _diameter = 0;
+  int? _width = 0;
+  int? _height = 0;
+  int? _price = 0;
+  int _result = 0;
   String? _pizzeriaName;
   String? _name;
 
   List<bool> _selections = [true, false];
 
-  int? _getResult() {
+  void _getResult() {
+    print('resulting');
     if (_selections[0]) {
-      return (((_diameter! / 2) * (_diameter! / 2) * 3.14) / _price!).round();
-    } else {}
+      if (_diameter == null || _price == null || _price == 0) {
+        print('sth null');
+        setState(() {
+          _result = 0;
+        });
+      } else {
+        setState(() {
+          _result =
+              (((_diameter! / 2) * (_diameter! / 2) * 3.14) / _price!).round();
+        });
+      }
+    } else {
+      if (_width == null || _height == null || _price == null || _price == 0) {
+        setState(() {
+          _result = 0;
+        });
+      } else {
+        setState(() {
+          _result = (_width! * _height! / _price!).round();
+        });
+      }
+    }
+    print(_result.toString());
   }
 
   Widget _DimensionWidget() {
     if (_selections[0]) {
       return TextFormField(
         onChanged: (String? val) {
-          _diameter = int.parse(val!);
+          _diameter = int.tryParse(val!) ?? 0;
+          _getResult();
         },
         keyboardType: TextInputType.number,
         initialValue: '',
@@ -57,7 +81,8 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
             width: 100,
             child: TextFormField(
               onChanged: (String? val) {
-                _width = int.parse(val!);
+                _width = int.tryParse(val!) ?? 0;
+                _getResult();
               },
               keyboardType: TextInputType.number,
               initialValue: '',
@@ -77,7 +102,8 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
             width: 100,
             child: TextFormField(
               onChanged: (String? val) {
-                _height = int.parse(val!);
+                _height = int.tryParse(val!) ?? 0;
+                _getResult();
               },
               keyboardType: TextInputType.number,
               initialValue: '',
@@ -111,7 +137,8 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
           children: <Widget>[
             TextFormField(
               onChanged: (String? val) {
-                _price = int.parse(val!);
+                _price = int.tryParse(val!) ?? 0;
+                _getResult();
               },
               keyboardType: TextInputType.number,
               initialValue: '',
@@ -134,8 +161,8 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
               onPressed: (int index) {
                 setState(() {
                   for (int buttonIndex = 0;
-                      buttonIndex < _selections.length;
-                      buttonIndex++) {
+                  buttonIndex < _selections.length;
+                  buttonIndex++) {
                     if (buttonIndex == index) {
                       _selections[buttonIndex] = true;
                     } else {
@@ -147,7 +174,7 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
               isSelected: _selections,
             ),
             _DimensionWidget(),
-            Text('result here'),
+            Text(_result.toString() + 'cmkw/zł'),
             TextFormField(
               onChanged: (String? val) {
                 _pizzeriaName = val;
@@ -183,18 +210,18 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
             ElevatedButton(
               onPressed: () {
                 _formKey.currentState!.save();
-                print(_getResult());
+                print(_result);
                 Pizza newPizza = Pizza(
                     _name!,
                     _price!,
-                    _getResult()!,
+                    _result,
                     _pizzeriaName!,
                     _selections[0] ? Shape.round : Shape.rectangle,
                     _selections[0]
                         ? Dimensions(_diameter, null, null)
                         : Dimensions(null, _width, _height));
                 listData.addPizza(newPizza);
-                print(_diameter);
+                print(_result);
               },
               child: const Text('Add to list'),
             ),
