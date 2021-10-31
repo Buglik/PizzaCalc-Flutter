@@ -14,8 +14,6 @@ class PizzaCalculatorPage extends StatefulWidget {
 
 @override
 class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
-  final _formKey = GlobalKey<FormState>();
-
   int? _diameter = 0;
   int? _width = 0;
   int? _height = 0;
@@ -76,9 +74,10 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
       );
     } else {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           SizedBox(
-            width: 100,
+            width: 150,
             child: TextFormField(
               onChanged: (String? val) {
                 _width = int.tryParse(val!) ?? 0;
@@ -99,7 +98,7 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
             ),
           ),
           SizedBox(
-            width: 100,
+            width: 150,
             child: TextFormField(
               onChanged: (String? val) {
                 _height = int.tryParse(val!) ?? 0;
@@ -128,12 +127,18 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
   Widget build(BuildContext context) {
     final listData = context.watch<ListData>();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Pizza calculator'),
+        title: const Text(
+          'Pizza calculator',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
       ),
-      body: Form(
-        key: _formKey,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextFormField(
               onChanged: (String? val) {
@@ -153,78 +158,104 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
                 ),
               ),
             ),
-            ToggleButtons(
-              children: const <Widget>[
-                Icon(Icons.circle),
-                Icon(Icons.check_box_outline_blank),
-              ],
-              onPressed: (int index) {
-                setState(() {
-                  for (int buttonIndex = 0;
-                  buttonIndex < _selections.length;
-                  buttonIndex++) {
-                    if (buttonIndex == index) {
-                      _selections[buttonIndex] = true;
-                    } else {
-                      _selections[buttonIndex] = false;
-                    }
-                  }
-                });
-              },
-              isSelected: _selections,
+            Container(
+              margin: const EdgeInsets.only(top: 15, bottom: 25),
+              child: Column(children: [
+                Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: const Text('Pizza shape')),
+                ToggleButtons(
+                  children: const <Widget>[
+                    Icon(Icons.circle),
+                    Icon(Icons.check_box_outline_blank),
+                  ],
+                  onPressed: (int index) {
+                    setState(() {
+                      for (int buttonIndex = 0;
+                          buttonIndex < _selections.length;
+                          buttonIndex++) {
+                        if (buttonIndex == index) {
+                          _selections[buttonIndex] = true;
+                        } else {
+                          _selections[buttonIndex] = false;
+                        }
+                      }
+                    });
+                  },
+                  isSelected: _selections,
+                ),
+              ]),
             ),
             _DimensionWidget(),
-            Text(_result.toString() + 'cmkw/zł'),
-            TextFormField(
-              onChanged: (String? val) {
-                _pizzeriaName = val;
-              },
-              initialValue: '',
-              decoration: const InputDecoration(
-                filled: true,
-                labelText: 'Pizzeria',
-                labelStyle: TextStyle(
-                  color: Color(0xFF716979),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF716979)),
+            Container(
+              width: 125,
+              height: 125,
+              margin: const EdgeInsets.only(top: 20, bottom: 10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 2),
+                  shape: BoxShape.circle),
+              child: Text(_result.toString() + 'cmkw/zł'),
+            ),
+            Container(
+              // margin: const EdgeInsets.only(top: 10),
+              child: TextFormField(
+                onChanged: (String? val) {
+                  _pizzeriaName = val;
+                },
+                initialValue: '',
+                decoration: const InputDecoration(
+                  filled: true,
+                  labelText: 'Pizzeria',
+                  labelStyle: TextStyle(
+                    color: Color(0xFF716979),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF716979)),
+                  ),
                 ),
               ),
             ),
-            TextFormField(
-              onChanged: (String? val) {
-                _name = val;
-              },
-              initialValue: '',
-              decoration: const InputDecoration(
-                filled: true,
-                labelText: 'Pizza name',
-                labelStyle: TextStyle(
-                  color: Color(0xFF716979),
-                ),
-                enabledBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF716979)),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: TextFormField(
+                onChanged: (String? val) {
+                  _name = val;
+                },
+                initialValue: '',
+                decoration: const InputDecoration(
+                  filled: true,
+                  labelText: 'Pizza name',
+                  labelStyle: TextStyle(
+                    color: Color(0xFF716979),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF716979)),
+                  ),
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _formKey.currentState!.save();
-                print(_result);
-                Pizza newPizza = Pizza(
-                    _name!,
-                    _price!,
-                    _result,
-                    _pizzeriaName!,
-                    _selections[0] ? Shape.round : Shape.rectangle,
-                    _selections[0]
-                        ? Dimensions(_diameter, null, null)
-                        : Dimensions(null, _width, _height));
-                listData.addPizza(newPizza);
-                print(_result);
-              },
-              child: const Text('Add to list'),
-            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              width: 300,
+              child: ElevatedButton(
+                onPressed: () {
+                  print(_result);
+                  Pizza newPizza = Pizza(
+                      _name!,
+                      _price!,
+                      _result,
+                      _pizzeriaName!,
+                      _selections[0] ? Shape.round : Shape.rectangle,
+                      _selections[0]
+                          ? Dimensions(_diameter, null, null)
+                          : Dimensions(null, _width, _height));
+                  listData.addPizza(newPizza);
+                  print(_result);
+                },
+                child: const Text('Add to list'),
+              ),
+            )
           ],
         ),
       ),

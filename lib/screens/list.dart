@@ -9,13 +9,16 @@ class PizzaListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final listData = context.watch<ListData>();
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Pizza list'),
+      appBar: AppBar(
+        title: const Text(
+          'Pizza list',
+          style: TextStyle(color: Colors.black),
         ),
-        body: Column(
-          children: <Widget>[
-            Text(listData.pizzas.toString())],
-        ),
+        backgroundColor: Colors.white,
+      ),
+      body: Column(
+        children: <Widget>[Text(listData.pizzas.toString())],
+      ),
     );
   }
 }
