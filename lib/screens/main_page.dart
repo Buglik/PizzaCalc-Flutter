@@ -32,6 +32,7 @@ class _MainPageScreenState extends State<MainPageScreen> {
           children: const [PizzaCalculatorPage(), PizzaListPage()],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.white,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: Icon(Icons.money), label: 'Calculator'),
