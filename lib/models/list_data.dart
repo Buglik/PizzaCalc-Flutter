@@ -17,7 +17,14 @@ class ListData extends ChangeNotifier {
 
   Map<String, List<Pizza>>? get pizzas => groupPizzasByPizzeria(_pizzas);
 
+  int sortPizzasByResult (Pizza a, Pizza b) {
+    int aInt = a.result;
+    int bInt = b.result;
+    return aInt - bInt;
+  }
+
   Map<String, List<Pizza>>? groupPizzasByPizzeria(List<Pizza> pizzas) {
+    pizzas.sort(sortPizzasByResult);
     return groupBy(pizzas, (Pizza p) {
       return p.pizzeriaName;
     });
