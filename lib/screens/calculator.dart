@@ -24,7 +24,7 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
   String? _pizzeriaName;
   String? _name;
 
-  List<bool> _selections = [true, false];
+  final List<bool> _selections = [true, false];
 
   Widget _buildPrice() {
     return TextFormField(
@@ -95,22 +95,19 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
   }
 
   Widget _buildPizzeriaName() {
-    return Container(
-      // margin: const EdgeInsets.only(top: 10),
-      child: TextFormField(
-        onChanged: (String? val) {
-          _pizzeriaName = val;
-        },
-        initialValue: '',
-        decoration: const InputDecoration(
-          filled: true,
-          labelText: 'Pizzeria',
-          labelStyle: TextStyle(
-            color: Color(0xFF716979),
-          ),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Color(0xFF716979)),
-          ),
+    return TextFormField(
+      onChanged: (String? val) {
+        _pizzeriaName = val;
+      },
+      initialValue: '',
+      decoration: const InputDecoration(
+        filled: true,
+        labelText: 'Pizzeria',
+        labelStyle: TextStyle(
+          color: Color(0xFF716979),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Color(0xFF716979)),
         ),
       ),
     );
@@ -210,10 +207,8 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
   }
 
   void _getResult() {
-    print('resulting');
     if (_selections[0]) {
       if (_diameter == null || _price == null || _price == 0) {
-        print('sth null');
         setState(() {
           _result = 0;
         });
@@ -234,7 +229,6 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
         });
       }
     }
-    print(_result.toString());
   }
 
   @override
@@ -268,7 +262,6 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
                       width: 300,
                       child: ElevatedButton(
                         onPressed: () {
-                          print(_result);
                           Pizza newPizza = Pizza(
                               _name!,
                               _price!,
@@ -281,7 +274,6 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
                           listData.addPizza(newPizza);
                           _formKey.currentState!.reset();
                           _result = 0;
-                          print(_result);
                         },
                         child: const Text('Add to list'),
                       ),

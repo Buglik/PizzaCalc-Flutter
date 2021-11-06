@@ -32,17 +32,17 @@ class PizzaListPage extends StatelessWidget {
         return Column(children: [
           Align(
             alignment: Alignment.centerLeft,
-            child: Padding(padding: EdgeInsets.fromLTRB(24,12,0,0),child: Text(key, style: TextStyle(color: Colors.blueGrey),)),
+            child: Padding(padding: const EdgeInsets.fromLTRB(24,12,0,0),child: Text(key, style: const TextStyle(color: Colors.blueGrey),)),
           ),
           ...listData.pizzas![key]!.map((pizza) {
             return ListTile(
-              contentPadding: EdgeInsets.fromLTRB(32, 0, 16, 0),
+              contentPadding: const EdgeInsets.fromLTRB(32, 0, 16, 0),
               leading: pizza.shape == Shape.round
-                  ? Icon(
+                  ? const Icon(
                       Icons.circle,
                       color: Colors.black,
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.check_box_outline_blank,
                       color: Colors.black,
                     ),
@@ -53,7 +53,7 @@ class PizzaListPage extends StatelessWidget {
                   Text(pizza.result.toString()),
                   Expanded(
                     child: IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const Icon(Icons.delete),
                       color: Colors.red,
                       onPressed: () {
                         listData.removePizza(pizza);
