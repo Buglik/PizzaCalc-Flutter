@@ -241,50 +241,54 @@ class PizzaCalculatorPageState extends State<PizzaCalculatorPage> {
   Widget build(BuildContext context) {
     final listData = context.watch<ListData>();
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text(
-          'Pizza calculator',
-          style: TextStyle(color: Colors.black),
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: const Text(
+            'Pizza calculator',
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
         ),
-        backgroundColor: Colors.white,
-      ),
-      body: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                _buildPrice(),
-                _buildShape(),
-                _buildDimensions(),
-                _buildResult(),
-                _buildPizzeriaName(),
-                _buildPizzaName(),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      print(_result);
-                      Pizza newPizza = Pizza(
-                          _name!,
-                          _price!,
-                          _result,
-                          _pizzeriaName!,
-                          _selections[0] ? Shape.round : Shape.rectangle,
-                          _selections[0]
-                              ? Dimensions(_diameter, null, null)
-                              : Dimensions(null, _width, _height));
-                      listData.addPizza(newPizza);
-                      print(_result);
-                    },
-                    child: const Text('Add to list'),
-                  ),
-                )
-              ],
-            ),
-          )),
-    );
+        body: Form(
+          key: _formKey,
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(40, 10, 40, 10),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _buildPrice(),
+                    _buildShape(),
+                    _buildDimensions(),
+                    _buildResult(),
+                    _buildPizzeriaName(),
+                    _buildPizzaName(),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      width: 300,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          print(_result);
+                          Pizza newPizza = Pizza(
+                              _name!,
+                              _price!,
+                              _result,
+                              _pizzeriaName!,
+                              _selections[0] ? Shape.round : Shape.rectangle,
+                              _selections[0]
+                                  ? Dimensions(_diameter, null, null)
+                                  : Dimensions(null, _width, _height));
+                          listData.addPizza(newPizza);
+                          _formKey.currentState!.reset();
+                          _result = 0;
+                          print(_result);
+                        },
+                        child: const Text('Add to list'),
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        ));
   }
 }
